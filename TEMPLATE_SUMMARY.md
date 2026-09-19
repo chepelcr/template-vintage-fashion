@@ -3,7 +3,7 @@
 ## Template Overview
 
 **Template Name**: Vintage Fashion Co.
-**Live URL**: https://vintage-fashion-example.j-markets.jcampos.dev
+**Live URL**: https://vintage-fashion.examples.tsuru.jcampos.dev
 **Build Output**: `dist/templates/vintage-fashion`
 **Dev Port**: 5175
 
@@ -241,7 +241,7 @@ const TEMPLATE_BUILD_PATHS = {
 node setup-template-bucket.js
 ```
 
-3. Template will be available at: https://vintage-fashion-example.j-markets.jcampos.dev
+3. Template will be available at: https://vintage-fashion.examples.tsuru.jcampos.dev
 
 ## Notes
 
