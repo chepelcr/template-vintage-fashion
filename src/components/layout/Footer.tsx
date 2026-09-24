@@ -1,10 +1,16 @@
 import React from 'react';
-import { useContact } from '@/hooks/useContent';import { Link } from 'wouter';
-import { useContact } from '@/hooks/useContent';import { Mail, MapPin, MessageCircle, Facebook, Instagram, Twitter } from 'lucide-react';
-import { useContact } from '@/hooks/useContent';import { VintageDivider } from '../VintageDivider';
-import { useContact } from '@/hooks/useContent';import { OrnateBorder } from '../OrnateBorder';
+import { Link } from 'wouter';
+import { Mail, MapPin, MessageCircle, Facebook, Instagram, Twitter } from 'lucide-react';
+import { formatPhone, whatsappPhone, whatsappUrl } from '@chepelcr/tsuru-storefront-sdk';
 import { useContact } from '@/hooks/useContent';
+import { useSubdomainContext } from '@/contexts/SubdomainContext';
+import { VintageDivider } from '../VintageDivider';
+import { OrnateBorder } from '../OrnateBorder';
+
 export function Footer() {
+  const { data: contact } = useContact();
+  const { organization } = useSubdomainContext();
+  const storeWhatsapp = whatsappPhone(contact);
   const currentYear = new Date().getFullYear();
 
   return (
@@ -36,11 +42,12 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* About */}
           <div>
-            <h4 className="text-xl font-serif font-bold mb-4">Vintage Fashion Co.</h4>
-            <p className="text-cream-50/80 font-body text-sm mb-4 leading-relaxed">
-              Curating timeless vintage fashion since 1952. Each piece tells a story of
-              craftsmanship, quality, and enduring style.
-            </p>
+            <h4 className="text-xl font-serif font-bold mb-4">{organization?.name}</h4>
+            {organization?.description && (
+              <p className="text-cream-50/80 font-body text-sm mb-4 leading-relaxed">
+                {organization.description}
+              </p>
+            )}
             <p className="text-xs font-body text-cream-50/60 italic">
               "Fashion fades, style is eternal"
             </p>
@@ -124,57 +131,62 @@ export function Footer() {
           <div>
             <h4 className="text-lg font-serif font-bold mb-4">Contact</h4>
             <ul className="space-y-3 font-body text-sm">
-              <li className="flex items-start gap-2">
-                <MapPin size={16} className="mt-1 flex-shrink-0 text-mustard-500" />
-                <span className="text-cream-50/80">
-                  123 Vintage Lane
-                  <br />
-                  Fashion District, NY 10001
-                </span>
-              </li>
-              <li className="flex items-center gap-2">
-                <MessageCircle size={16} className="flex-shrink-0 text-mustard-500" />
-                <a
-                  href="https://wa.me/+1234567890?text=Hola%2C%20me%20gustar%C3%ADa%20obtener%20m%C3%A1s%20informaci%C3%B3n" target="_blank" rel="noopener noreferrer"
-                  className="text-cream-50/80 hover:text-mustard-500 transition-colors"
-                >
-                  (123) 456-7890
-                </a>
-              </li>
-              <li className="flex items-center gap-2">
-                <Mail size={16} className="flex-shrink-0 text-mustard-500" />
-                <a
-                  href="mailto:info@vintagefashion.co"
-                  className="text-cream-50/80 hover:text-mustard-500 transition-colors"
-                >
-                  info@vintagefashion.co
-                </a>
-              </li>
+              {contact?.address && (
+                <li className="flex items-start gap-2">
+                  <MapPin size={16} className="mt-1 flex-shrink-0 text-mustard-500" />
+                  <span className="text-cream-50/80">{contact.address}</span>
+                </li>
+              )}
+              {storeWhatsapp && (
+                <li className="flex items-center gap-2">
+                  <MessageCircle size={16} className="flex-shrink-0 text-mustard-500" />
+                  <a
+                    href={whatsappUrl(storeWhatsapp, 'Hola, me gustaría obtener más información')} target="_blank" rel="noopener noreferrer"
+                    className="text-cream-50/80 hover:text-mustard-500 transition-colors"
+                  >
+                    {formatPhone(storeWhatsapp)}
+                  </a>
+                </li>
+              )}
+              {contact?.email && (
+                <li className="flex items-center gap-2">
+                  <Mail size={16} className="flex-shrink-0 text-mustard-500" />
+                  <a
+                    href={`mailto:${contact.email}`}
+                    className="text-cream-50/80 hover:text-mustard-500 transition-colors"
+                  >
+                    {contact.email}
+                  </a>
+                </li>
+              )}
             </ul>
 
             {/* Social Media */}
             <div className="flex gap-4 mt-6">
-              <a
-                href="#"
+              {contact?.facebookUrl && (
+                <a href={contact.facebookUrl} target="_blank" rel="noopener noreferrer"
                 className="text-cream-50/80 hover:text-mustard-500 transition-colors"
                 aria-label="Facebook"
               >
-                <Facebook size={20} />
-              </a>
-              <a
-                href="#"
+                  <Facebook size={20} />
+                </a>
+              )}
+              {contact?.instagramUrl && (
+                <a href={contact.instagramUrl} target="_blank" rel="noopener noreferrer"
                 className="text-cream-50/80 hover:text-mustard-500 transition-colors"
                 aria-label="Instagram"
               >
-                <Instagram size={20} />
-              </a>
-              <a
-                href="#"
+                  <Instagram size={20} />
+                </a>
+              )}
+              {contact?.twitterUrl && (
+                <a href={contact.twitterUrl} target="_blank" rel="noopener noreferrer"
                 className="text-cream-50/80 hover:text-mustard-500 transition-colors"
                 aria-label="Twitter"
               >
-                <Twitter size={20} />
-              </a>
+                  <Twitter size={20} />
+                </a>
+              )}
             </div>
           </div>
         </div>
@@ -184,7 +196,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="text-center">
           <p className="text-sm text-cream-50/60 font-body mb-2">
-            © {currentYear} Vintage Fashion Co. All rights reserved.
+            © {currentYear} {organization?.name}. All rights reserved.
           </p>
           <div className="flex flex-wrap justify-center gap-4 text-xs text-cream-50/50 font-body">
             <a href="#" className="hover:text-mustard-500 transition-colors">

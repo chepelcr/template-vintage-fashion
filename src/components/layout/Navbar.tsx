@@ -3,10 +3,14 @@ import { Link } from 'wouter';
 import { ShoppingCart, Menu, X, Search } from 'lucide-react';
 import { VintageButton } from '../VintageButton';
 import { useCartStore } from '@/store/cart';
+import { useTheme } from '@/hooks/useContent';
+import { useSubdomainContext } from '@/contexts/SubdomainContext';
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { items, toggleCart } = useCartStore();
+  const { organization } = useSubdomainContext();
+  const { data: theme } = useTheme();
   const cartItemCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -18,13 +22,20 @@ export function Navbar() {
         <div className="flex items-center justify-between py-4">
           {/* Logo */}
           <Link href="/">
-            <a className="flex flex-col hover:opacity-80 transition-opacity" onClick={() => window.scrollTo(0, 0)}>
-              <h1 className="text-3xl md:text-4xl font-serif font-bold text-burgundy-900">
-                Vintage Fashion Co.
-              </h1>
-              <p className="text-xs font-body text-burgundy-900/70 italic hidden sm:block">
-                Timeless Elegance Since 1952
-              </p>
+            <a className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => window.scrollTo(0, 0)}>
+              {theme?.logoUrl && (
+                <img src={theme.logoUrl} alt={organization?.name ?? ''} className="h-10 w-10 object-contain" />
+              )}
+              <span className="flex flex-col">
+                <h1 className="text-3xl md:text-4xl font-serif font-bold text-burgundy-900">
+                  {organization?.name}
+                </h1>
+                {organization?.description && (
+                  <p className="text-xs font-body text-burgundy-900/70 italic hidden sm:block">
+                    {organization.description}
+                  </p>
+                )}
+              </span>
             </a>
           </Link>
 
