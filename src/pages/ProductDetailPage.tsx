@@ -9,8 +9,24 @@ import {
   VintageDivider,
   OrnateBorder,
 } from '../components';
+import { useCartStore } from '@/store/cart';
+import { useRouteProduct } from '@/hooks/useRouteProduct';
 
 export function ProductDetailPage() {
+  // Add the store's real product (the one this route points at) to the cart.
+  const routeProduct = useRouteProduct();
+  const { addToCart, isOpen, toggleCart } = useCartStore();
+  const handleAddToCart = () => {
+    if (!routeProduct) return;
+    addToCart({
+      id: routeProduct.id,
+      name: routeProduct.name,
+      price: routeProduct.price,
+      imageUrl: routeProduct.imageUrl,
+      quantity,
+    });
+    if (!isOpen) toggleCart();
+  };
   const [, params] = useRoute('/products/:id');
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState('M');
@@ -230,7 +246,7 @@ export function ProductDetailPage() {
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 mb-8">
-              <VintageButton variant="primary" size="lg" className="flex-1">
+              <VintageButton variant="primary" size="lg" className="flex-1" onClick={handleAddToCart} disabled={!routeProduct}>
                 Add to Cart
               </VintageButton>
               <VintageButton variant="outline" size="lg">
