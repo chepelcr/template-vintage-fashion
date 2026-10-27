@@ -1,0 +1,80 @@
+/*
+ * Vintage Fashion design tokens — three layers (see DESIGN.md).
+ * 1 primitives → 2 semantic roles → 3 component tokens.
+ * `--brand*` and `--font-display` are set at run time from the store's branding.
+ */
+:root {
+  /* 1 · Primitives — Perchero 70s */
+  --vf-chocolate: #3B2418;
+  --vf-chocolate-lift: #4A2F21;
+  --vf-rust: #B4532A;
+  --vf-rust-text: #9A4321;
+  --vf-mustard: #D9A23A;
+  --vf-avocado: #6F7A35;
+  --vf-avocado-text: #5A6329;
+  --vf-oat: #EFE4D2;
+  --vf-cream: #F8F1E4;
+  --vf-ink: #2A1A12;
+  --vf-ink-soft: #6B5446;
+  --vf-oat-soft: #D9C9B1;
+  --vf-ember: #A3311F;
+
+  /* 2 · Semantic */
+  --surface: var(--vf-oat);
+  --surface-quiet: color-mix(in srgb, var(--vf-oat) 80%, var(--vf-oat-soft));
+  --surface-raised: var(--vf-cream);
+  --surface-deep: var(--vf-chocolate);
+  --surface-deep-raised: var(--vf-chocolate-lift);
+  --ink: var(--vf-ink);
+  --ink-soft: var(--vf-ink-soft);
+  --ink-on-deep: var(--vf-oat);
+  --ink-on-deep-soft: var(--vf-oat-soft);
+  --heading: var(--vf-chocolate);
+  --rule: color-mix(in srgb, var(--vf-chocolate) 18%, transparent);
+  --rule-on-deep: color-mix(in srgb, var(--vf-oat) 18%, transparent);
+  --accent: var(--brand, var(--vf-rust));
+  --accent-ink: var(--brand-ink, #FFFFFF);
+  --accent-text: var(--brand-text, var(--vf-rust-text));
+  --accent-2: var(--brand-2, var(--vf-mustard));
+  --accent-2-ink: var(--brand-2-ink, var(--vf-ink));
+  --offer: var(--vf-rust-text);
+  --danger: var(--vf-ember);
+  --success: var(--vf-avocado-text);
+  --focus: var(--vf-rust-text);
+  --focus-on-deep: var(--vf-mustard);
+  --scrim: rgb(42 26 18 / 0.6);
+
+  /* 3 · Component */
+  --font-display: "Righteous", "Noto Sans", -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-text: "Karla", "Noto Sans", -apple-system, "Segoe UI", Roboto, sans-serif;
+  --radius-frame: 1.5rem;
+  --radius-frame-sm: 0.875rem;
+  --radius-pill: 999px;
+  --stripe-1: var(--vf-rust);
+  --stripe-2: var(--vf-mustard);
+  --stripe-3: var(--vf-avocado);
+  --rail: var(--vf-chocolate);
+  --rail-h: 5px;
+  --hanger: #8C6B4F;
+  --hook: var(--vf-chocolate);
+  --hanger-w: 7rem;
+  --disc-w: 8rem;
+  --rack-gap: 1.25rem;
+  --tag: var(--vf-cream);
+  --shadow-soft: 0 1px 2px rgb(42 26 18 / 0.12), 0 14px 30px -18px rgb(42 26 18 / 0.45);
+  --shadow-lift: 0 2px 4px rgb(42 26 18 / 0.14), 0 26px 44px -22px rgb(42 26 18 / 0.55);
+  --tap: 2.75rem;
+  --gutter: clamp(1rem, 4vw, 2.5rem);
+  --max: 78rem;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in: cubic-bezier(0.5, 0, 0.75, 0);
+  --ease-swing: cubic-bezier(0.36, 0, 0.2, 1);
+  --dur-enter: 260ms;
+  --dur-exit: 170ms;
+}
+
+/* On chocolate the rail, hooks and hangers lighten so they still read. */
+.on-deep {
+  --hook: var(--vf-oat-soft);
+  --hanger: #A88462;
+}

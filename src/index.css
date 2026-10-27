@@ -1,226 +1,436 @@
+@import './core/core.css';
+@import './theme/tokens.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ==========================================
-   VINTAGE FASHION THEME - CSS VARIABLES
-   ========================================== */
-
 @layer base {
-  :root {
-    /* ===== COLOR PALETTE ===== */
-    /* Primary: Burgundy #881337 (Rose-900) */
-    --primary: 338 81% 29%;
-    --primary-foreground: 48 96% 89%;
-
-    /* Secondary: Mustard #eab308 (Yellow-500) */
-    --secondary: 45 93% 47%;
-    --secondary-foreground: 338 81% 29%;
-
-    /* Accent: Dusty Rose #f43f5e (Rose-500) */
-    --accent: 350 89% 60%;
-    --accent-foreground: 48 96% 89%;
-
-    /* Background: Warm Cream #fffbeb (Amber-50) */
-    --background: 48 100% 96%;
-    --foreground: 60 9% 18%; /* Warm dark gray for text */
-
-    /* Card surfaces */
-    --card: 45 87% 94%; /* Cream-100 */
-    --card-foreground: 60 9% 18%;
-
-    /* Popover/dropdown */
-    --popover: 0 0% 100%;
-    --popover-foreground: 60 9% 18%;
-
-    /* Muted elements */
-    --muted: 45 87% 94%;
-    --muted-foreground: 60 5% 52%;
-
-    /* Borders */
-    --border: 45 46% 90%; /* Warm cream border */
-    --input: 45 46% 90%;
-
-    /* Focus rings */
-    --ring: 338 81% 29%; /* Burgundy focus ring */
-
-    /* Destructive (errors) */
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
-
-    /* Border radius */
-    --radius: 0.375rem; /* Slightly rounded for vintage feel */
-  }
-
-  /* Dark mode for vintage aesthetic (optional) */
-  .dark {
-    --background: 24 10% 10%; /* Deep brown-black */
-    --foreground: 48 96% 89%;
-
-    --card: 24 10% 14%;
-    --card-foreground: 48 96% 89%;
-
-    --popover: 24 10% 14%;
-    --popover-foreground: 48 96% 89%;
-
-    --primary: 338 81% 29%;
-    --primary-foreground: 48 96% 89%;
-
-    --secondary: 45 93% 47%;
-    --secondary-foreground: 338 81% 29%;
-
-    --accent: 350 89% 60%;
-    --accent-foreground: 48 96% 89%;
-
-    --muted: 24 10% 20%;
-    --muted-foreground: 48 46% 70%;
-
-    --border: 24 10% 20%;
-    --input: 24 10% 20%;
-
-    --ring: 45 93% 47%;
-
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 48 96% 89%;
-  }
-}
-
-/* ==========================================
-   BASE STYLES
-   ========================================== */
-
-@layer base {
-  * {
-    @apply border-border;
+  html {
+    background: var(--surface);
+    color: var(--ink);
+    font-family: var(--font-text);
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
-    @apply bg-background text-foreground font-body;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    margin: 0;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
   }
 
-  /* Headings use Playfair Display (elegant serif) */
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-serif;
-    font-weight: 600;
-    line-height: 1.2;
+  h1,
+  h2,
+  h3,
+  .font-display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: 0.005em;
+    line-height: 1.05;
+    text-wrap: balance;
   }
 
-  h1 {
-    @apply text-4xl md:text-5xl lg:text-6xl;
+  :focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 3px;
   }
 
-  h2 {
-    @apply text-3xl md:text-4xl lg:text-5xl;
+  .on-deep :focus-visible {
+    outline-color: var(--focus-on-deep);
   }
 
-  h3 {
-    @apply text-2xl md:text-3xl lg:text-4xl;
+  ::selection {
+    background: var(--vf-mustard);
+    color: var(--vf-ink);
   }
 
-  h4 {
-    @apply text-xl md:text-2xl;
-  }
-
-  /* Vintage texture overlay */
-  .vintage-texture {
-    position: relative;
-  }
-
-  .vintage-texture::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url('data:image/svg+xml,%3Csvg width="100" height="100" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" /%3E%3C/filter%3E%3Crect width="100" height="100" filter="url(%23noise)" opacity="0.05" /%3E%3C/svg%3E');
-    pointer-events: none;
-    opacity: 0.6;
-  }
-
-  /* Sepia filter for vintage photos */
-  .sepia {
-    filter: sepia(0.3) contrast(1.1) brightness(1.05);
-  }
-
-  /* Ornate divider */
-  .ornate-divider {
-    position: relative;
-    text-align: center;
-    margin: 2rem 0;
-  }
-
-  .ornate-divider::before,
-  .ornate-divider::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    width: 45%;
-    height: 1px;
-    background: linear-gradient(to right, transparent, hsl(var(--border)), transparent);
-  }
-
-  .ornate-divider::before {
-    left: 0;
-  }
-
-  .ornate-divider::after {
-    right: 0;
+  img {
+    display: block;
+    max-width: 100%;
   }
 }
 
-/* ==========================================
-   UTILITY CLASSES
-   ========================================== */
-
-@layer utilities {
-  /* Vintage shadows */
-  .shadow-vintage {
-    box-shadow: 0 2px 8px rgba(136, 19, 55, 0.15);
+@layer components {
+  .page {
+    width: 100%;
+    max-width: var(--max);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
   }
 
-  .shadow-vintage-lg {
-    box-shadow: 0 4px 16px rgba(136, 19, 55, 0.2);
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: var(--tap);
+    padding: 0.625rem 1.375rem;
+    border-radius: var(--radius-pill);
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none;
+    transition: transform var(--dur-exit) var(--ease-out), background-color var(--dur-exit) ease, box-shadow var(--dur-exit) ease;
   }
 
-  /* Vintage borders */
-  .border-vintage {
-    border: 2px solid hsl(var(--border));
-    border-radius: var(--radius);
+  .btn:active:not(:disabled) {
+    transform: scale(0.97);
   }
 
-  .border-vintage-ornate {
-    border: 3px double hsl(var(--primary));
-    border-radius: calc(var(--radius) + 0.125rem);
+  .btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
   }
 
-  /* Text decorations */
-  .text-vintage-heading {
-    @apply font-serif text-burgundy-900 tracking-wide;
-    text-shadow: 1px 1px 0 rgba(234, 179, 8, 0.2);
+  .btn-accent {
+    background: var(--accent);
+    color: var(--accent-ink);
   }
 
-  /* Vintage button styles */
-  .btn-vintage {
-    @apply inline-flex items-center justify-center rounded-md px-6 py-3;
-    @apply font-serif font-semibold text-sm tracking-wider uppercase;
-    @apply transition-all duration-300;
-    @apply border-2 border-transparent;
+  .btn-accent:hover:not(:disabled) {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 30%, transparent);
   }
 
-  .btn-vintage-primary {
-    @apply btn-vintage bg-burgundy-900 text-cream-50;
-    @apply hover:bg-burgundy-800 hover:shadow-vintage-lg;
+  .btn-strong {
+    background: var(--vf-chocolate);
+    color: var(--vf-oat);
   }
 
-  .btn-vintage-secondary {
-    @apply btn-vintage bg-mustard-500 text-burgundy-900;
-    @apply hover:bg-mustard-600 hover:shadow-vintage-lg;
+  .btn-strong:hover:not(:disabled) {
+    background: var(--vf-chocolate-lift);
   }
 
-  .btn-vintage-outline {
-    @apply btn-vintage border-burgundy-900 text-burgundy-900;
-    @apply hover:bg-burgundy-900 hover:text-cream-50;
+  .btn-quiet {
+    background: transparent;
+    color: var(--heading);
+    box-shadow: inset 0 0 0 2px var(--rule);
   }
+
+  .btn-quiet:hover:not(:disabled) {
+    box-shadow: inset 0 0 0 2px var(--heading);
+  }
+
+  .btn-on-deep {
+    background: transparent;
+    color: var(--vf-oat);
+    box-shadow: inset 0 0 0 2px var(--rule-on-deep);
+  }
+
+  .btn-on-deep:hover:not(:disabled) {
+    box-shadow: inset 0 0 0 2px var(--vf-oat);
+  }
+
+  .btn-mustard {
+    background: var(--accent-2);
+    color: var(--accent-2-ink);
+  }
+
+  .icon-btn {
+    display: inline-grid;
+    place-items: center;
+    min-width: var(--tap);
+    min-height: var(--tap);
+    border-radius: var(--radius-pill);
+  }
+
+  .gloss {
+    display: none;
+  }
+
+  .frame {
+    border-radius: var(--radius-frame);
+    overflow: hidden;
+  }
+
+  .frame-sm {
+    border-radius: var(--radius-frame-sm);
+    overflow: hidden;
+  }
+
+  .field {
+    width: 100%;
+    min-height: var(--tap);
+    padding: 0.625rem 0.875rem;
+    border-radius: 0.875rem;
+    background: var(--surface-raised);
+    color: var(--ink);
+    box-shadow: inset 0 0 0 2px var(--rule);
+    font: inherit;
+  }
+
+  .field[aria-invalid='true'] {
+    box-shadow: inset 0 0 0 2px var(--danger);
+  }
+
+  .skeleton {
+    background: linear-gradient(100deg, var(--surface-quiet) 30%, var(--vf-cream) 50%, var(--surface-quiet) 70%);
+    background-size: 300% 100%;
+    animation: skeleton-sweep 1.5s ease-in-out infinite;
+    border-radius: 0.75rem;
+  }
+
+  .skeleton-deep {
+    background: var(--vf-chocolate-lift);
+    border-radius: 0.75rem;
+  }
+
+  /* Garment tag: a card tag with a punched hole and its string. */
+  .price-tag {
+    position: relative;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.25rem;
+    padding: 0.25rem 0.75rem 0.25rem 1.5rem;
+    border-radius: 0.375rem;
+    background: var(--tag);
+    color: var(--vf-ink);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--vf-chocolate) 30%, transparent);
+    clip-path: polygon(0.625rem 0, 100% 0, 100% 100%, 0.625rem 100%, 0 50%);
+  }
+
+  .price-tag::before {
+    content: '';
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: 999px;
+    background: var(--surface);
+    box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--vf-chocolate) 45%, transparent);
+    transform: translateY(-50%);
+  }
+
+  .stripes {
+    background: linear-gradient(
+      to bottom,
+      var(--stripe-1) 0 33.33%,
+      var(--stripe-2) 33.33% 66.66%,
+      var(--stripe-3) 66.66% 100%
+    );
+  }
+
+  .stripes-v {
+    background: linear-gradient(
+      to right,
+      var(--stripe-1) 0 33.33%,
+      var(--stripe-2) 33.33% 66.66%,
+      var(--stripe-3) 66.66% 100%
+    );
+  }
+}
+
+/*
+ * The rack. A hanger's hook sits on the rail at 7.5 % of the hanger's width
+ * (see Hanger.tsx), so the rail and the swing pivot are placed from
+ * --hanger-w. Garments swing when pointed at or focused, and the hero piece
+ * swings once as it is hung.
+ */
+/* Horizontal extent comes from utilities in the markup (inset-x-…). */
+.rail-line {
+  position: absolute;
+  top: calc(var(--hanger-w) * 0.075 - var(--rail-h) / 2);
+  height: var(--rail-h);
+  border-radius: 999px;
+  background: var(--rail);
+  box-shadow: 0 2px 0 rgb(0 0 0 / 0.15);
+}
+
+.on-deep .rail-line {
+  background: var(--vf-oat-soft);
+}
+
+.rack-grid {
+  display: grid;
+  column-gap: var(--rack-gap);
+  row-gap: 3rem;
+}
+
+.rack-grid > li {
+  position: relative;
+}
+
+/* Each item carries its stretch of rail into the gaps, so a row reads as one rail. */
+.rack-grid > li::before {
+  content: '';
+  position: absolute;
+  left: calc(var(--rack-gap) / -2);
+  right: calc(var(--rack-gap) / -2);
+  top: calc(var(--hanger-w) * 0.075 - var(--rail-h) / 2);
+  height: var(--rail-h);
+  background: var(--rail);
+  box-shadow: 0 2px 0 rgb(0 0 0 / 0.15);
+}
+
+.garment {
+  position: relative;
+  transform-origin: 50% calc(var(--hanger-w) * 0.075);
+}
+
+.hang:hover .garment,
+.hang:focus-within .garment {
+  animation: swing 1.4s var(--ease-swing);
+}
+
+.hero-garment {
+  animation: hung 1.9s var(--ease-swing) 0.15s both;
+}
+
+/* Size dividers hang from their hole, a fifth of the way down. */
+.disc-rail {
+  position: absolute;
+  top: calc(var(--disc-w) * 0.22 - var(--rail-h) / 2);
+  height: var(--rail-h);
+  border-radius: 999px;
+  background: var(--rail);
+  box-shadow: 0 2px 0 rgb(0 0 0 / 0.15);
+}
+
+.disc {
+  transform-origin: 50% 22%;
+}
+
+.hang:hover .disc,
+.hang:focus-visible .disc {
+  animation: swing 1.2s var(--ease-swing);
+}
+
+/* A sewn-in label: cream tape with its stitching. */
+.sewn {
+  position: relative;
+  border-radius: 0.5rem;
+  background: var(--tag);
+  box-shadow: var(--shadow-soft);
+}
+
+.sewn::before {
+  content: '';
+  position: absolute;
+  inset: 0.375rem;
+  border: 1.5px dashed color-mix(in srgb, var(--vf-chocolate) 32%, transparent);
+  border-radius: 0.3rem;
+  pointer-events: none;
+}
+
+.nav-link {
+  position: relative;
+}
+
+.nav-link[aria-current='page']::after {
+  content: '';
+  position: absolute;
+  left: 0.875rem;
+  right: 0.875rem;
+  bottom: 0.25rem;
+  height: 6px;
+  border-radius: 2px;
+  background: linear-gradient(
+    to bottom,
+    var(--stripe-1) 0 33.33%,
+    var(--stripe-2) 33.33% 66.66%,
+    var(--stripe-3) 66.66% 100%
+  );
+}
+
+@keyframes swing {
+  0% {
+    transform: rotate(0deg);
+  }
+  14% {
+    transform: rotate(4deg);
+  }
+  34% {
+    transform: rotate(-3deg);
+  }
+  54% {
+    transform: rotate(1.8deg);
+  }
+  74% {
+    transform: rotate(-0.8deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes hung {
+  0% {
+    transform: rotate(7deg);
+  }
+  28% {
+    transform: rotate(-4.5deg);
+  }
+  50% {
+    transform: rotate(2.6deg);
+  }
+  70% {
+    transform: rotate(-1.2deg);
+  }
+  86% {
+    transform: rotate(0.4deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes skeleton-sweep {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+
+.basket-settle {
+  animation: swing 900ms var(--ease-swing);
+  transform-origin: 50% 10%;
+}
+
+@keyframes sheet-in-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes sheet-in-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.overlay[data-state='open'] {
+  animation: fade-in var(--dur-enter) ease;
+}
+
+.sheet[data-state='open'] {
+  animation: sheet-in-up var(--dur-enter) var(--ease-out);
+}
+
+@media (min-width: 768px) {
+  .sheet[data-state='open'] {
+    animation-name: sheet-in-right;
+  }
+}
+
+.dialog-pop[data-state='open'] {
+  animation: fade-in var(--dur-enter) var(--ease-out);
 }
