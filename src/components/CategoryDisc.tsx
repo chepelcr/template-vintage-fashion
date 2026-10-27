@@ -1,5 +1,5 @@
 import { Link } from 'wouter';
-import { catalogHref, onColor, type CatalogCategory } from '@/core';
+import { catalogHref, onColor, parseHex, type CatalogCategory } from '@/core';
 import { useI18n } from '@/i18n';
 
 // Palette rotation, only for categories the store left without a colour.
@@ -8,7 +8,7 @@ const ROTATION = ['#B4532A', '#D9A23A', '#6F7A35', '#3B2418'];
 /** A rack size divider: the category's name on a disc that hangs from the rail. */
 export function CategoryDisc({ category, count, index, size = 'md' }: { category: CatalogCategory; count?: number; index: number; size?: 'sm' | 'md' }) {
   const { plural } = useI18n();
-  const fill = category.backgroundColor ?? ROTATION[index % ROTATION.length];
+  const fill = (parseHex(category.backgroundColor) ? category.backgroundColor : null) ?? ROTATION[index % ROTATION.length];
   const ink = onColor(fill);
   const disc = (
     <svg aria-hidden="true" viewBox="0 0 100 100" className="absolute inset-0 h-full w-full overflow-visible">
@@ -20,7 +20,7 @@ export function CategoryDisc({ category, count, index, size = 'md' }: { category
         </mask>
       </defs>
       <circle cx="50" cy="50" r="49" fill={fill} mask={`url(#disc-${category.id})`} />
-      <circle cx="50" cy="50" r="48.5" fill="none" stroke="var(--vf-chocolate)" strokeOpacity="0.18" strokeWidth="1" mask={`url(#disc-${category.id})`} />
+      <circle cx="50" cy="50" r="48.5" fill="none" strokeOpacity="0.18" strokeWidth="1" mask={`url(#disc-${category.id})`} style={{ stroke: 'var(--vf-chocolate)' }} />
     </svg>
   );
 

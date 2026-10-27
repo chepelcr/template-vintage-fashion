@@ -22,15 +22,15 @@ export function useIsActive() {
 export function ButtonMark({ className = 'h-10 w-10' }: { className?: string }) {
   return (
     <svg aria-hidden="true" viewBox="0 0 40 40" className={className}>
-      <circle cx="20" cy="20" r="19" fill="var(--accent)" />
-      <circle cx="20" cy="20" r="14" fill="none" stroke="var(--accent-ink)" strokeOpacity="0.4" strokeWidth="1.5" />
+      <circle cx="20" cy="20" r="19" style={{ fill: 'var(--accent)' }} />
+      <circle cx="20" cy="20" r="14" fill="none" strokeOpacity="0.4" strokeWidth="1.5" style={{ stroke: 'var(--accent-ink)' }} />
       {[
         [15.6, 15.6],
         [24.4, 15.6],
         [15.6, 24.4],
         [24.4, 24.4],
       ].map(([cx, cy]) => (
-        <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="2.3" fill="var(--surface)" />
+        <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="2.3" style={{ fill: 'var(--surface)' }} />
       ))}
     </svg>
   );
