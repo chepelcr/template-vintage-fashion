@@ -78,3 +78,28 @@
   --hook: var(--vf-oat-soft);
   --hanger: #A88462;
 }
+
+/* The warm rack and woven labels become chocolate after dark. */
+:root[data-color-scheme='dark'] {
+  --surface: #211A16;
+  --surface-quiet: #2B211B;
+  --surface-raised: #352A23;
+  --surface-deep: #160F0B;
+  --surface-deep-raised: #35241B;
+  --ink: #F4E9D8;
+  --ink-soft: #CFBCA5;
+  --heading: #F4E9D8;
+  --rule: rgb(239 228 210 / 0.24);
+  --offer: #F1A780;
+  --offer-ink: #2A1A12;
+  --danger: #FFAD97;
+  --success: #BDCA80;
+  --focus: #F1A780;
+  --rail: #A88462;
+  --hanger: #B18E6E;
+  --hook: #D9C9B1;
+  --tag: #352A23;
+  --scrim: rgb(0 0 0 / 0.7);
+  --shadow-soft: 0 1px 2px rgb(0 0 0 / 0.3), 0 14px 30px -18px rgb(0 0 0 / 0.7);
+  --shadow-lift: 0 2px 4px rgb(0 0 0 / 0.35), 0 26px 44px -22px rgb(0 0 0 / 0.8);
+}
