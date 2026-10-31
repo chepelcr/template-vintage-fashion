@@ -2,7 +2,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { Menu, ShoppingBag, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'wouter';
-import { useCart, useCartTotals, useIsDemo, useStore } from '@/core';
+import { useCart, useCartTotals, useIsDemo, useStore, useStoreName } from '@/core';
 import { useI18n } from '@/i18n';
 import { BASKET_EVENT } from './AddToCart';
 import { ThemeToggle } from './ThemeToggle';
@@ -39,18 +39,20 @@ export function ButtonMark({ className = 'h-10 w-10' }: { className?: string }) 
 
 function StoreMark() {
   const { organization, theme } = useStore();
+  const name = useStoreName();
   const logo = theme?.logoUrl ?? organization?.logoUrl ?? null;
-  if (!organization) return <span aria-hidden="true" className="skeleton block h-8 w-24 max-w-full" />;
+  if (!name) return <span aria-hidden="true" className="skeleton block h-8 w-24 max-w-full" />;
   return (
-    <span className="flex min-w-0 items-center gap-2">
+    <span className="flex w-full min-w-0 items-center gap-2">
       {logo ? <img src={logo} alt="" className="h-8 w-8 shrink-0 rounded-full object-cover" /> : <ButtonMark className="h-8 w-8 shrink-0" />}
-      <span className="truncate font-display text-base leading-none sm:text-xl">{organization.name}</span>
+      <span className="font-display text-base sm:text-xl min-w-0 flex-1 break-words [overflow-wrap:anywhere] leading-tight">{name}</span>
     </span>
   );
 }
 
 export function Header() {
   const { t, plural } = useI18n();
+  const name = useStoreName();
   const isDemo = useIsDemo();
   const { count } = useCartTotals();
   const openCart = useCart((s) => s.open);
@@ -71,8 +73,8 @@ export function Header() {
   return (
     <header ref={headerRef} className="relative z-30 bg-surface">
       {isDemo && <p className="bg-[color:var(--vf-mustard)] px-4 py-1.5 text-center text-xs font-semibold text-[color:var(--vf-ink)] sm:text-sm">{t('demo.notice')}</p>}
-      <div className="page flex h-14 items-center gap-1.5 sm:h-16 sm:gap-2">
-        <Link href="/" className="min-w-0 flex-1 rounded-full py-1 pr-1 text-heading lg:flex-initial">
+      <div className="page flex min-h-14 items-center gap-1.5 sm:min-h-16 sm:gap-2 py-1">
+        <Link href="/" title={name || undefined} aria-label={name || undefined} className="flex min-h-tap items-center min-w-0 flex-1 rounded-full pr-1 text-heading lg:flex-initial lg:max-w-[16rem]">
           <StoreMark />
         </Link>
 
